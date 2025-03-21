@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des employés</title>
+  <link rel="stylesheet" href="employees.css">
+</head>
+<body>
+  <h1>Liste des employés</h1>
+  <button onclick="logout()" style="margin-bottom: 30px; padding: 10px; border-radius: 5px; background: #ef4444; color: white; border: none; cursor: pointer;">
+    Se déconnecter
+  </button>
+  <section id="form-section">
+    <h2>Ajouter un employé</h2>
+    <form id="employee-form">
+      <input type="text" id="name" placeholder="Nom complet" required>
+      <input type="text" id="position" placeholder="Poste" required>
+      <input type="text" id="department" placeholder="Département" required>
+      <button type="submit">Ajouter</button>
+    </form>
+  </section>
+
+  <ul id="employeeList"></ul>
+
+  <script>
+    const list = document.getElementById('employeeList');
+    const token = localStorage.getItem('token');
+
+    function loadEmployees() {
+      fetch('http://localhost:3000/employees', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(res => res.json())
+      .then(employees => {
+        list.innerHTML = '';
+        employees.forEach(emp => {
+          const li = document.createElement('li');
+          li.innerText = `${emp.name} - ${emp.position} (${emp.department})`;
+          li.onclick = () => {
+            window.location.href = `employee_detail.html?id=${emp.id}`;
+          };
+          list.appendChild(li);
+        });
+      });
+    }
+
+    document.getElementById('employee-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const position = document.getElementById('position').value;
+      const department = document.getElementById('department').value;
+
+      fetch('http://localhost:3000/employees', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ employee: { name, position, department } })
+      })
+      .then(res => {
+        if (res.ok) {
+          loadEmployees();
+          e.target.reset();
+        } else {
+          alert('Erreur lors de l’ajout de l’employé');
+        }
+      });
+    });
+
+    loadEmployees();
+    function logout() {
+  localStorage.removeItem('token');
+  window.location.href = 'landing.html';
+}
+  </script>
+</body>
+</html>
