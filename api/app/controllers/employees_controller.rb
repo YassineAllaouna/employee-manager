@@ -35,7 +35,17 @@ class EmployeesController < ApplicationController
     private
   
     def employee_params
-      params.require(:employee).permit(:name, :position, :department)
+      params.require(:employee).permit(
+        :name, :position, :department,
+        :first_name, :birth_date, :gender, :nationality, :social_number,
+        :personal_address, :personal_phone, :personal_email, :emergency_contact,
+        :rib, :manager, :hire_date, :contract_type, :status, :location,
+        :salary, :payment_frequency, :benefits,
+        :performance_reviews, :goals, :feedback,
+        :education, :trainings, :skills, :past_experience,
+        :payroll_documents, :leave_balance, :leave_taken, :leave_requests, :absences,
+        :tax_id, :diversity_info, :system_access_log, :permissions, :gdpr_compliance
+      )
     end
   
     def authorize

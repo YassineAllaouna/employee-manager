@@ -1,0 +1,39 @@
+class AddDetailsToEmployees < ActiveRecord::Migration[8.0]
+  def change
+    add_column :employees, :first_name, :string
+    add_column :employees, :birth_date, :date
+    add_column :employees, :gender, :string
+    add_column :employees, :nationality, :string
+    add_column :employees, :social_number, :string
+    add_column :employees, :personal_address, :string
+    add_column :employees, :personal_phone, :string
+    add_column :employees, :personal_email, :string
+    add_column :employees, :emergency_contact, :string
+    add_column :employees, :rib, :string
+    add_column :employees, :manager, :string
+    add_column :employees, :hire_date, :date
+    add_column :employees, :contract_type, :string
+    add_column :employees, :status, :string
+    add_column :employees, :location, :string
+    add_column :employees, :salary, :integer
+    add_column :employees, :payment_frequency, :string
+    add_column :employees, :benefits, :text
+    add_column :employees, :performance_reviews, :text
+    add_column :employees, :goals, :text
+    add_column :employees, :feedback, :text
+    add_column :employees, :education, :text
+    add_column :employees, :trainings, :text
+    add_column :employees, :skills, :text
+    add_column :employees, :past_experience, :text
+    add_column :employees, :payroll_documents, :text
+    add_column :employees, :leave_balance, :integer
+    add_column :employees, :leave_taken, :integer
+    add_column :employees, :leave_requests, :text
+    add_column :employees, :absences, :text
+    add_column :employees, :tax_id, :string
+    add_column :employees, :diversity_info, :text
+    add_column :employees, :system_access_log, :text
+    add_column :employees, :permissions, :text
+    add_column :employees, :gdpr_compliance, :text
+  end
+end
