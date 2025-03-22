@@ -24,14 +24,6 @@ body {
     margin-top: 0;
     font-size: 1.6rem;
     color: #111827;
-    text-align: center;
-  }
-  
-  .subtitle {
-    text-align: center;
-    font-size: 0.95rem;
-    color: #6b7280;
-    margin-bottom: 20px;
   }
   
   form {
@@ -39,6 +31,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 14px;
+    margin-top: 20px;
   }
   
   form input {
@@ -48,7 +41,7 @@ body {
     font-size: 1rem;
   }
   
-  .btn-login {
+  .btn-save {
     background-color: #4f46e5;
     color: white;
     border: none;
@@ -60,7 +53,7 @@ body {
     transition: background 0.2s ease;
   }
   
-  .btn-login:hover {
+  .btn-save:hover {
     background-color: #4338ca;
   }
   
@@ -68,6 +61,7 @@ body {
     color: red;
     font-size: 0.9rem;
     text-align: center;
+    margin-top: 5px;
   }
   
   .link {
@@ -84,11 +78,4 @@ body {
   
   .link a:hover {
     text-decoration: underline;
-  }
-  
-  footer {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 0.85rem;
-    color: #9ca3af;
   }

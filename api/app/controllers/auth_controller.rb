@@ -2,14 +2,14 @@ class AuthController < ApplicationController
     def signup
       user = User.create(email: params[:email], password: params[:password])
       token = encode_token(user_id: user.id)
-      render json: { token: token }
+      render json: { token: token, role: user.role }
     end
   
     def login
       user = User.find_by(email: params[:email])
       if user && user.authenticate(params[:password])
         token = encode_token(user_id: user.id)
-        render json: { token: token }
+        render json: { token: token, role: user.role }
       else
         render json: { error: "Invalid credentials" }, status: :unauthorized
       end

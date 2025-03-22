@@ -3,78 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <title>Créer un compte</title>
-  <link rel="stylesheet" href="landing.css">
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 50px;
-    }
-
-    form {
-      display: inline-flex;
-      flex-direction: column;
-      gap: 10px;
-      max-width: 300px;
-      width: 100%;
-      margin: auto;
-    }
-
-    input, button {
-      padding: 10px;
-      font-size: 1rem;
-      border-radius: 6px;
-      border: none;
-    }
-
-    button {
-      background-color: #4f46e5;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .error {
-      color: red;
-      margin-top: 10px;
-      font-size: 0.9rem;
-    }
-  </style>
+  <link rel="stylesheet" href="signup.css">
 </head>
 <body>
-  <h1>Créer un compte</h1>
-
-  <form id="signup-form">
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Mot de passe" required>
-    <button type="submit">S'inscrire</button>
-    <div class="error" id="error"></div>
-  </form>
-
-  <p>Déjà un compte ? <a href="landing.html">Se connecter</a></p>
+  <div class="container">
+    <div class="card">
+      <h1>Créer un compte</h1>
+      <form id="signup-form">
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Mot de passe" required>
+        <button type="submit" class="btn btn-save">S'inscrire</button>
+        <div id="error" class="error"></div>
+      </form>
+      <p class="link">Déjà un compte ? <a href="landing.html">Se connecter</a></p>
+    </div>
+  </div>
 
   <script>
     document.getElementById('signup-form').addEventListener('submit', async function (e) {
-      e.preventDefault()
-      const email = document.getElementById('email').value
-      const password = document.getElementById('password').value
-      const errorBox = document.getElementById('error')
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorBox = document.getElementById('error');
 
       const res = await fetch('http://localhost:3000/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
-      })
+      });
 
-      const data = await res.json()
+      const data = await res.json();
 
       if (res.ok) {
-        localStorage.setItem('token', data.token)
-        window.location.href = 'employees.html'
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('role', data.role);
+        window.location.href = 'employees.html';
       } else {
-        errorBox.textContent = data.error || 'Erreur lors de l’inscription'
+        errorBox.textContent = data.error || 'Erreur lors de l’inscription';
       }
-    })
+    });
   </script>
 </body>
 </html>

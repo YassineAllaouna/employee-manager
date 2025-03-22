@@ -2,28 +2,44 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Liste des employés</title>
+  <title>Employés</title>
   <link rel="stylesheet" href="employees.css">
+  <link rel="stylesheet" href="navbar.css">
 </head>
-<body>
-  <h1>Liste des employés</h1>
-  <button onclick="logout()" style="margin-bottom: 30px; padding: 10px; border-radius: 5px; background: #ef4444; color: white; border: none; cursor: pointer;">
-    Se déconnecter
-  </button>
-  <section id="form-section">
-    <h2>Ajouter un employé</h2>
-    <form id="employee-form">
-      <input type="text" id="name" placeholder="Nom complet" required>
-      <input type="text" id="position" placeholder="Poste" required>
-      <input type="text" id="department" placeholder="Département" required>
-      <button type="submit">Ajouter</button>
-    </form>
-  </section>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    fetch("navbar.html")
+      .then(res => res.text())
+      .then(html => {
+        const nav = document.getElementById("nav-container");
+        if (nav) nav.innerHTML = html;
+      });
 
-  <ul id="employeeList"></ul>
+    function logout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      window.location.href = "landing.html";
+    }
+    window.logout = logout;
+  });
+</script>
+<body>
+  <div class="container">
+    <h1>Liste des employés</h1>
+    <div id="employee-list" class="employee-list"></div>
+    <div class="employee-form">
+      <h2>Ajouter un employé</h2>
+      <form id="employee-form">
+        <input type="text" id="name" placeholder="Nom complet" required>
+        <input type="text" id="position" placeholder="Poste" required>
+        <input type="text" id="department" placeholder="Département" required>
+        <button type="submit">Ajouter</button>
+      </form>
+    </div>
+  </div>
 
   <script>
-    const list = document.getElementById('employeeList');
+    const list = document.getElementById('employee-list');
     const token = localStorage.getItem('token');
 
     function loadEmployees() {
@@ -34,12 +50,15 @@
       .then(employees => {
         list.innerHTML = '';
         employees.forEach(emp => {
-          const li = document.createElement('li');
-          li.innerText = `${emp.name} - ${emp.position} (${emp.department})`;
-          li.onclick = () => {
-            window.location.href = `employee_detail.html?id=${emp.id}`;
-          };
-          list.appendChild(li);
+          const card = document.createElement('div');
+          card.className = 'employee-card';
+          card.innerHTML = `
+            <h3>${emp.name}</h3>
+            <p><strong>Poste :</strong> ${emp.position}</p>
+            <p><strong>Département :</strong> ${emp.department}</p>
+            <a href="employee_detail.html?id=${emp.id}">Voir les détails →</a>
+          `;
+          list.appendChild(card);
         });
       });
     }
@@ -58,21 +77,13 @@
         },
         body: JSON.stringify({ employee: { name, position, department } })
       })
-      .then(res => {
-        if (res.ok) {
-          loadEmployees();
-          e.target.reset();
-        } else {
-          alert('Erreur lors de l’ajout de l’employé');
-        }
+      .then(() => {
+        loadEmployees();
+        e.target.reset();
       });
     });
 
     loadEmployees();
-    function logout() {
-  localStorage.removeItem('token');
-  window.location.href = 'landing.html';
-}
   </script>
 </body>
 </html>

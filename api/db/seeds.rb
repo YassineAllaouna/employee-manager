@@ -1,7 +1,7 @@
 require 'faker'
 
 user = User.first || User.create(email: "admin@mail.com", password: "123456")
-
+user = User.create!(email: "admin@mail.com", password: "123456", role: "admin")
 10.times do
   user.employees.create(
     name: Faker::Name.name,

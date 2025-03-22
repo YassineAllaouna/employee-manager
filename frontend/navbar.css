@@ -1,30 +1,35 @@
 .navbar {
-    position: sticky;
-    top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #f8f8f8;
-    padding: 15px 30px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #ffffff;
+    padding: 16px 32px;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    position: sticky;
+    top: 0;
     z-index: 1000;
   }
   
-  .nav-logo {
-    font-weight: 600;
+  .navbar-left {
     font-size: 1.2rem;
-    color: #111;
+    font-weight: bold;
+    color: #1f2937;
   }
   
-  .nav-links a {
+  .navbar-logo {
+    color: #4f46e5;
+    font-weight: 600;
+  }
+  
+  .navbar-right a {
     margin-left: 20px;
     text-decoration: none;
-    color: #444;
+    color: #4b5563;
     font-weight: 500;
     transition: color 0.2s ease;
   }
   
-  .nav-links a:hover {
-    color: #000;
+  .navbar-right a:hover {
+    color: #4f46e5;
   }

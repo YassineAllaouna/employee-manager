@@ -4,34 +4,36 @@
   <meta charset="UTF-8">
   <title>SaaS RH - Employee Manager</title>
   <link rel="stylesheet" href="landing.css">
-  <link rel="stylesheet" href="navbar.css">
+  
 </head>
 <body>
-    <div id="nav-container"></div>
-  <h1>Le Système RH Moderne pour les PME</h1>
-  <p>
-    Simplifiez la gestion de vos employés grâce à notre solution SaaS RH intuitive.
-  </p>
+  <div class="container">
+    <div class="card">
+      <h1>Connexion à Employee Manager</h1>
+      <p class="subtitle">
+        Simplifiez la gestion de vos employés grâce à notre solution SaaS RH intuitive.
+      </p>
 
-  <form id="login-form">
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Mot de passe" required>
-    <button type="submit">Se connecter</button>
-    <div id="error" class="error"></div>
-    <p><a href="signup.html" style="color: white; text-decoration: underline;">Créer un compte</a></p>
-  </form>
+      <form id="login-form">
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Mot de passe" required>
+        <button type="submit" class="btn btn-login">Se connecter</button>
+        <div id="error" class="error"></div>
+      </form>
 
-  <footer>
-    © 2025 Employee Manager — Fait avec ❤️ en Ruby & JavaScript
-  </footer>
+      <p class="link">Pas encore de compte ? <a href="signup.html">Créer un compte</a></p>
+    </div>
+
+    <footer>
+      © 2025 Employee Manager — Fait avec ❤️ en Ruby & JavaScript
+    </footer>
+  </div>
 
   <script>
-    // 🔄 Redirection automatique si token déjà présent
     if (localStorage.getItem('token')) {
       window.location.href = 'employees.html';
     }
 
-    // 🔐 Connexion
     document.getElementById('login-form').addEventListener('submit', async function (e) {
       e.preventDefault();
       const email = document.getElementById('email').value;
@@ -48,47 +50,12 @@
 
       if (res.ok) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('role', data.role);
         window.location.href = 'employees.html';
       } else {
         errorBox.textContent = data.error || 'Échec de la connexion';
       }
     });
-
-    // ✨ Créer un compte rapidement
-    async function createAccount() {
-      const email = prompt("Entrez votre email :");
-      const password = prompt("Entrez un mot de passe :");
-
-      if (!email || !password) return;
-
-      const res = await fetch('http://localhost:3000/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert('Compte créé avec succès. Vous êtes maintenant connecté !');
-        localStorage.setItem('token', data.token);
-        window.location.href = 'employees.html';
-      } else {
-        alert(data.error || 'Erreur lors de la création du compte');
-      }
-    }
-     // 🔄 Charger la navbar dynamiquement
-     fetch("navbar.html")
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById("nav-container").innerHTML = html;
-      });
-
-    // 🔐 Déconnexion
-    function logout() {
-      localStorage.removeItem("token");
-      window.location.href = "landing.html";
-    }
   </script>
 </body>
 </html>

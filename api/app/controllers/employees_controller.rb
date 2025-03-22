@@ -4,6 +4,11 @@ class EmployeesController < ApplicationController
     def index
       render json: @current_user.employees
     end
+
+    def show
+      employee = @current_user.employees.find(params[:id])
+      render json: employee
+    end
   
     def create
       employee = @current_user.employees.create(employee_params)
@@ -17,10 +22,15 @@ class EmployeesController < ApplicationController
     end
   
     def destroy
+      unless @current_user.role == "admin"
+        return render json: { error: "Non autorisé" }, status: :unauthorized
+      end
+    
       employee = @current_user.employees.find(params[:id])
       employee.destroy
       head :no_content
     end
+    
   
     private
   

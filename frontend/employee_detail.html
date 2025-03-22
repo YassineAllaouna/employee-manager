@@ -6,26 +6,112 @@
   <link rel="stylesheet" href="employee_detail.css">
 </head>
 <body>
-  <div class="card">
-    <h1 id="emp-name"></h1>
-    <p><span class="label">Poste :</span> <span id="emp-position"></span></p>
-    <p><span class="label">Département :</span> <span id="emp-department"></span></p>
-    <a href="employees.html">← Retour à la liste</a>
+  <div class="container">
+    <div class="card">
+      <h1 id="emp-name">Chargement...</h1>
+      <p><strong>Poste :</strong> <span id="emp-position"></span></p>
+      <p><strong>Département :</strong> <span id="emp-department"></span></p>
+
+      <div id="success-message">✔️ Modifié avec succès</div>
+
+      <div class="actions">
+        <button class="btn btn-edit" onclick="showEditForm()">Modifier</button>
+        <button class="btn btn-delete" onclick="deleteEmployee()">Supprimer</button>
+      </div>
+
+      <form id="edit-form">
+        <input type="text" id="edit-name" placeholder="Nom complet" required>
+        <input type="text" id="edit-position" placeholder="Poste" required>
+        <input type="text" id="edit-department" placeholder="Département" required>
+        <button type="submit" class="btn btn-save">Enregistrer</button>
+      </form>
+
+      <a href="employees.html" class="back-link">← Retour à la liste</a>
+    </div>
   </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search)
-    const id = params.get('id')
+    const id = new URLSearchParams(window.location.search).get('id');
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
+
+    const nameEl = document.getElementById('emp-name');
+    const posEl = document.getElementById('emp-position');
+    const depEl = document.getElementById('emp-department');
+
+    const editForm = document.getElementById('edit-form');
+    const editName = document.getElementById('edit-name');
+    const editPosition = document.getElementById('edit-position');
+    const editDepartment = document.getElementById('edit-department');
+    const successMessage = document.getElementById('success-message');
+    const deleteBtn = document.querySelector('.btn-delete');
+
+    if (role !== 'admin') {
+      deleteBtn.style.display = 'none';
+    }
 
     fetch(`http://localhost:3000/employees/${id}`, {
-      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('token') }
+      headers: { 'Authorization': 'Bearer ' + token }
     })
     .then(res => res.json())
     .then(emp => {
-      document.getElementById('emp-name').innerText = emp.name
-      document.getElementById('emp-position').innerText = emp.position
-      document.getElementById('emp-department').innerText = emp.department
-    })
+      nameEl.textContent = emp.name;
+      posEl.textContent = emp.position;
+      depEl.textContent = emp.department;
+
+      editName.value = emp.name;
+      editPosition.value = emp.position;
+      editDepartment.value = emp.department;
+    });
+
+    function showEditForm() {
+      editForm.style.display = 'flex';
+    }
+
+    editForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      fetch(`http://localhost:3000/employees/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({
+          employee: {
+            name: editName.value,
+            position: editPosition.value,
+            department: editDepartment.value
+          }
+        })
+      }).then(() => {
+        nameEl.textContent = editName.value;
+        posEl.textContent = editPosition.value;
+        depEl.textContent = editDepartment.value;
+        editForm.style.display = 'none';
+        showSuccessMessage();
+      });
+    });
+
+    function deleteEmployee() {
+      if (!confirm('Supprimer cet employé ?')) return;
+
+      fetch(`http://localhost:3000/employees/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + token }
+      }).then(() => {
+        alert('Employé supprimé');
+        window.location.href = 'employees.html';
+      });
+    }
+
+    function showSuccessMessage() {
+      successMessage.style.display = 'block';
+      successMessage.style.opacity = 1;
+      setTimeout(() => {
+        successMessage.style.opacity = 0;
+        setTimeout(() => successMessage.style.display = 'none', 500);
+      }, 2500);
+    }
   </script>
 </body>
 </html>
