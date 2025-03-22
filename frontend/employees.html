@@ -6,27 +6,12 @@
   <link rel="stylesheet" href="employees.css">
   <link rel="stylesheet" href="navbar.css">
 </head>
-<script>
-  window.addEventListener("DOMContentLoaded", () => {
-    fetch("navbar.html")
-      .then(res => res.text())
-      .then(html => {
-        const nav = document.getElementById("nav-container");
-        if (nav) nav.innerHTML = html;
-      });
-
-    function logout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
-      window.location.href = "landing.html";
-    }
-    window.logout = logout;
-  });
-</script>
 <body>
+  <div id="nav-container"></div>
+
   <div class="container">
     <h1>Liste des employés</h1>
-    <div id="employee-list" class="employee-list"></div>
+
     <div class="employee-form">
       <h2>Ajouter un employé</h2>
       <form id="employee-form">
@@ -36,54 +21,74 @@
         <button type="submit">Ajouter</button>
       </form>
     </div>
+
+    <div id="employee-list" class="employee-list"></div>
   </div>
 
   <script>
-    const list = document.getElementById('employee-list');
-    const token = localStorage.getItem('token');
+    window.addEventListener("DOMContentLoaded", () => {
+      // Chargement dynamique de la navbar
+      fetch("navbar.html")
+        .then(res => res.text())
+        .then(html => {
+          const nav = document.getElementById("nav-container");
+          if (nav) nav.innerHTML = html;
+        });
 
-    function loadEmployees() {
-      fetch('http://localhost:3000/employees', {
-        headers: { 'Authorization': 'Bearer ' + token }
-      })
-      .then(res => res.json())
-      .then(employees => {
-        list.innerHTML = '';
-        employees.forEach(emp => {
-          const card = document.createElement('div');
-          card.className = 'employee-card';
-          card.innerHTML = `
-            <h3>${emp.name}</h3>
-            <p><strong>Poste :</strong> ${emp.position}</p>
-            <p><strong>Département :</strong> ${emp.department}</p>
-            <a href="employee_detail.html?id=${emp.id}">Voir les détails →</a>
-          `;
-          list.appendChild(card);
+      // Déconnexion
+      function logout() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        window.location.href = "landing.html";
+      }
+      window.logout = logout;
+
+      const list = document.getElementById('employee-list');
+      const token = localStorage.getItem('token');
+
+      function loadEmployees() {
+        fetch('http://localhost:3000/employees', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(res => res.json())
+        .then(employees => {
+          list.innerHTML = '';
+          employees.forEach(emp => {
+            const card = document.createElement('div');
+            card.className = 'employee-card';
+            card.innerHTML = `
+              <h3>${emp.name}</h3>
+              <p><strong>Poste :</strong> ${emp.position}</p>
+              <p><strong>Département :</strong> ${emp.department}</p>
+              <a href="employee_detail.html?id=${emp.id}">Voir les détails →</a>
+            `;
+            list.appendChild(card);
+          });
+        });
+      }
+
+      document.getElementById('employee-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const position = document.getElementById('position').value;
+        const department = document.getElementById('department').value;
+
+        fetch('http://localhost:3000/employees', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({ employee: { name, position, department } })
+        })
+        .then(() => {
+          loadEmployees();
+          e.target.reset();
         });
       });
-    }
 
-    document.getElementById('employee-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const position = document.getElementById('position').value;
-      const department = document.getElementById('department').value;
-
-      fetch('http://localhost:3000/employees', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify({ employee: { name, position, department } })
-      })
-      .then(() => {
-        loadEmployees();
-        e.target.reset();
-      });
+      loadEmployees();
     });
-
-    loadEmployees();
   </script>
 </body>
 </html>

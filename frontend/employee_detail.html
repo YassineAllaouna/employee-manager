@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Fiche employé</title>
   <link rel="stylesheet" href="employee_detail.css">
+  <link rel="stylesheet" href="navbar.css">
 </head>
 <body>
   <div class="container">
@@ -17,6 +18,11 @@
       <div class="actions">
         <button class="btn btn-edit" onclick="showEditForm()">Modifier</button>
         <button class="btn btn-delete" onclick="deleteEmployee()">Supprimer</button>
+        <button class="btn btn-save" onclick="saveEmployee()">💾 Enregistrer</button>
+    </div>
+    
+    <div id="success-message" style="display: none; color: green; font-weight: bold;">
+      ✅ Modifié avec succès !
       </div>
 
       <form id="edit-form">
@@ -26,6 +32,134 @@
         <button type="submit" class="btn btn-save">Enregistrer</button>
       </form>
 
+      <section class="employee-info">
+        <!-- Identité -->
+        <p><strong>Nom :</strong> <span id="emp-name"></span></p>
+        <input type="text" id="edit-name" placeholder="Nom complet">
+      
+        <p><strong>Prénom :</strong> <span id="emp-first-name"></span></p>
+        <input type="text" id="edit-first-name" placeholder="Prénom">
+      
+        <p><strong>Date de naissance :</strong> <span id="emp-birth-date"></span></p>
+        <input type="date" id="edit-birth-date">
+      
+        <p><strong>Sexe :</strong> <span id="emp-gender"></span></p>
+        <input type="text" id="edit-gender" placeholder="Sexe">
+      
+        <p><strong>Nationalité :</strong> <span id="emp-nationality"></span></p>
+        <input type="text" id="edit-nationality" placeholder="Nationalité">
+      
+        <p><strong>Numéro de sécurité sociale :</strong> <span id="emp-social-number"></span></p>
+        <input type="text" id="edit-social-number" placeholder="Numéro de sécurité sociale">
+      
+        <!-- Coordonnées -->
+        <p><strong>Adresse :</strong> <span id="emp-personal-address"></span></p>
+        <input type="text" id="edit-personal-address" placeholder="Adresse personnelle">
+      
+        <p><strong>Téléphone :</strong> <span id="emp-personal-phone"></span></p>
+        <input type="text" id="edit-personal-phone" placeholder="Téléphone personnel">
+      
+        <p><strong>Email :</strong> <span id="emp-personal-email"></span></p>
+        <input type="email" id="edit-personal-email" placeholder="Email personnel">
+      
+        <p><strong>Contact d'urgence :</strong> <span id="emp-emergency-contact"></span></p>
+        <input type="text" id="edit-emergency-contact" placeholder="Contact d'urgence">
+      
+        <!-- Bancaire -->
+        <p><strong>RIB :</strong> <span id="emp-rib"></span></p>
+        <input type="text" id="edit-rib" placeholder="RIB">
+      
+        <!-- Emploi -->
+        <p><strong>Poste :</strong> <span id="emp-position"></span></p>
+        <input type="text" id="edit-position" placeholder="Poste">
+      
+        <p><strong>Département :</strong> <span id="emp-department"></span></p>
+        <input type="text" id="edit-department" placeholder="Département">
+      
+        <p><strong>Manager :</strong> <span id="emp-manager"></span></p>
+        <input type="text" id="edit-manager" placeholder="Manager">
+      
+        <p><strong>Date d'embauche :</strong> <span id="emp-hire-date"></span></p>
+        <input type="date" id="edit-hire-date">
+      
+        <p><strong>Type de contrat :</strong> <span id="emp-contract-type"></span></p>
+        <input type="text" id="edit-contract-type" placeholder="Type de contrat">
+      
+        <p><strong>Statut :</strong> <span id="emp-status"></span></p>
+        <input type="text" id="edit-status" placeholder="Statut">
+      
+        <p><strong>Lieu de travail :</strong> <span id="emp-location"></span></p>
+        <input type="text" id="edit-location" placeholder="Lieu de travail">
+      
+        <!-- Rémunération -->
+        <p><strong>Salaire :</strong> <span id="emp-salary"></span></p>
+        <input type="number" id="edit-salary" placeholder="Salaire">
+      
+        <p><strong>Fréquence de paiement :</strong> <span id="emp-payment-frequency"></span></p>
+        <input type="text" id="edit-payment-frequency" placeholder="Fréquence de paiement">
+      
+        <p><strong>Avantages :</strong> <span id="emp-benefits"></span></p>
+        <textarea id="edit-benefits" placeholder="Avantages sociaux"></textarea>
+      
+        <!-- Performance -->
+        <p><strong>Évaluations :</strong> <span id="emp-performance-reviews"></span></p>
+        <textarea id="edit-performance-reviews" placeholder="Évaluations"></textarea>
+      
+        <p><strong>Objectifs :</strong> <span id="emp-goals"></span></p>
+        <textarea id="edit-goals" placeholder="Objectifs"></textarea>
+      
+        <p><strong>Feedback :</strong> <span id="emp-feedback"></span></p>
+        <textarea id="edit-feedback" placeholder="Feedback"></textarea>
+      
+        <!-- Formations -->
+        <p><strong>Diplômes :</strong> <span id="emp-education"></span></p>
+        <textarea id="edit-education" placeholder="Diplômes"></textarea>
+      
+        <p><strong>Formations :</strong> <span id="emp-trainings"></span></p>
+        <textarea id="edit-trainings" placeholder="Formations"></textarea>
+      
+        <p><strong>Compétences :</strong> <span id="emp-skills"></span></p>
+        <textarea id="edit-skills" placeholder="Compétences"></textarea>
+      
+        <!-- Expérience -->
+        <p><strong>Expérience :</strong> <span id="emp-past-experience"></span></p>
+        <textarea id="edit-past-experience" placeholder="Expérience professionnelle"></textarea>
+      
+        <!-- Documents -->
+        <p><strong>Fiches de paie :</strong> <span id="emp-payroll-documents"></span></p>
+        <textarea id="edit-payroll-documents" placeholder="Documents de paie"></textarea>
+      
+        <!-- Absences -->
+        <p><strong>Congés acquis :</strong> <span id="emp-leave-balance"></span></p>
+        <input type="number" id="edit-leave-balance">
+      
+        <p><strong>Congés pris :</strong> <span id="emp-leave-taken"></span></p>
+        <input type="number" id="edit-leave-taken">
+      
+        <p><strong>Demandes de congés :</strong> <span id="emp-leave-requests"></span></p>
+        <textarea id="edit-leave-requests" placeholder="Demandes de congés"></textarea>
+      
+        <p><strong>Absences :</strong> <span id="emp-absences"></span></p>
+        <textarea id="edit-absences" placeholder="Absences"></textarea>
+      
+        <!-- Fiscalité et RGPD -->
+        <p><strong>Numéro fiscal :</strong> <span id="emp-tax-id"></span></p>
+        <input type="text" id="edit-tax-id">
+      
+        <p><strong>Diversité :</strong> <span id="emp-diversity-info"></span></p>
+        <textarea id="edit-diversity-info" placeholder="Infos diversité"></textarea>
+      
+        <p><strong>Accès système :</strong> <span id="emp-system-access-log"></span></p>
+        <textarea id="edit-system-access-log" placeholder="Historique d'accès"></textarea>
+      
+        <p><strong>Permissions :</strong> <span id="emp-permissions"></span></p>
+        <input type="text" id="edit-permissions">
+      
+        <p><strong>Conformité RGPD :</strong> <span id="emp-gdpr-compliance"></span></p>
+        <textarea id="edit-gdpr-compliance" placeholder="RGPD"></textarea>
+      </section>
+      
+
       <a href="employees.html" class="back-link">← Retour à la liste</a>
     </div>
   </div>
@@ -34,22 +168,22 @@
     const id = new URLSearchParams(window.location.search).get('id');
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
-
+  
     const nameEl = document.getElementById('emp-name');
     const posEl = document.getElementById('emp-position');
     const depEl = document.getElementById('emp-department');
-
+  
     const editForm = document.getElementById('edit-form');
     const editName = document.getElementById('edit-name');
     const editPosition = document.getElementById('edit-position');
     const editDepartment = document.getElementById('edit-department');
     const successMessage = document.getElementById('success-message');
     const deleteBtn = document.querySelector('.btn-delete');
-
+  
     if (role !== 'admin') {
       deleteBtn.style.display = 'none';
     }
-
+  
     fetch(`http://localhost:3000/employees/${id}`, {
       headers: { 'Authorization': 'Bearer ' + token }
     })
@@ -58,16 +192,41 @@
       nameEl.textContent = emp.name;
       posEl.textContent = emp.position;
       depEl.textContent = emp.department;
-
+  
       editName.value = emp.name;
       editPosition.value = emp.position;
       editDepartment.value = emp.department;
-    });
 
+      // === Affichage + remplissage des champs étendus ===
+    const champs = [
+        "first_name", "birth_date", "gender", "nationality", "social_number",
+        "personal_address", "personal_phone", "personal_email", "emergency_contact",
+        "rib", "manager", "hire_date", "contract_type", "status", "location",
+        "salary", "payment_frequency", "benefits",
+        "performance_reviews", "goals", "feedback",
+        "education", "trainings", "skills", "past_experience",
+        "payroll_documents", "leave_balance", "leave_taken", "leave_requests", "absences",
+        "tax_id", "diversity_info", "system_access_log", "permissions", "gdpr_compliance"
+     ];
+
+    champs.forEach(key => {
+    const span = document.getElementById(`emp-${key}`);
+    const input = document.getElementById(`edit-${key}`);
+    if (span) span.textContent = emp[key] || "";
+    if (input) input.value = emp[key] || "";
+    });
+  
+      document.getElementById('emp-first-name').textContent = emp.first_name || "";
+      document.getElementById('emp-birth-date').textContent = emp.birth_date || "";
+  
+      document.getElementById('edit-first-name').value = emp.first_name || "";
+      document.getElementById('edit-birth-date').value = emp.birth_date || "";
+    });
+  
     function showEditForm() {
       editForm.style.display = 'flex';
     }
-
+  
     editForm.addEventListener('submit', function (e) {
       e.preventDefault();
       fetch(`http://localhost:3000/employees/${id}`, {
@@ -80,21 +239,62 @@
           employee: {
             name: editName.value,
             position: editPosition.value,
-            department: editDepartment.value
+            department: editDepartment.value,
+  
+            first_name: document.getElementById('edit-first-name').value,
+            birth_date: document.getElementById('edit-birth-date').value,
+            gender: document.getElementById('edit-gender').value,
+            nationality: document.getElementById('edit-nationality').value,
+            social_number: document.getElementById('edit-social-number').value,
+  
+            personal_address: document.getElementById('edit-personal-address').value,
+            personal_phone: document.getElementById('edit-personal-phone').value,
+            personal_email: document.getElementById('edit-personal-email').value,
+            emergency_contact: document.getElementById('edit-emergency-contact').value,
+  
+            rib: document.getElementById('edit-rib').value,
+  
+            manager: document.getElementById('edit-manager').value,
+            hire_date: document.getElementById('edit-hire-date').value,
+            contract_type: document.getElementById('edit-contract-type').value,
+            status: document.getElementById('edit-status').value,
+            location: document.getElementById('edit-location').value,
+  
+            salary: document.getElementById('edit-salary').value,
+            payment_frequency: document.getElementById('edit-payment-frequency').value,
+            benefits: document.getElementById('edit-benefits').value,
+  
+            performance_reviews: document.getElementById('edit-performance-reviews').value,
+            goals: document.getElementById('edit-goals').value,
+            feedback: document.getElementById('edit-feedback').value,
+  
+            education: document.getElementById('edit-education').value,
+            trainings: document.getElementById('edit-trainings').value,
+            skills: document.getElementById('edit-skills').value,
+            past_experience: document.getElementById('edit-past-experience').value,
+  
+            payroll_documents: document.getElementById('edit-payroll-documents').value,
+            leave_balance: document.getElementById('edit-leave-balance').value,
+            leave_taken: document.getElementById('edit-leave-taken').value,
+            leave_requests: document.getElementById('edit-leave-requests').value,
+            absences: document.getElementById('edit-absences').value,
+  
+            tax_id: document.getElementById('edit-tax-id').value,
+            diversity_info: document.getElementById('edit-diversity-info').value,
+            system_access_log: document.getElementById('edit-system-access-log').value,
+            permissions: document.getElementById('edit-permissions').value,
+            gdpr_compliance: document.getElementById('edit-gdpr-compliance').value
           }
         })
-      }).then(() => {
-        nameEl.textContent = editName.value;
-        posEl.textContent = editPosition.value;
-        depEl.textContent = editDepartment.value;
-        editForm.style.display = 'none';
+      })
+      .then(() => {
         showSuccessMessage();
       });
     });
-
+  
     function deleteEmployee() {
       if (!confirm('Supprimer cet employé ?')) return;
-
+  
       fetch(`http://localhost:3000/employees/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': 'Bearer ' + token }
@@ -103,7 +303,7 @@
         window.location.href = 'employees.html';
       });
     }
-
+  
     function showSuccessMessage() {
       successMessage.style.display = 'block';
       successMessage.style.opacity = 1;
@@ -112,6 +312,64 @@
         setTimeout(() => successMessage.style.display = 'none', 500);
       }, 2500);
     }
+    function saveEmployee() {
+    const id = new URLSearchParams(window.location.search).get('id');
+    const token = localStorage.getItem('token');
+
+    const champs = [
+      "name", "position", "department",
+      "first_name", "birth_date", "gender", "nationality", "social_number",
+      "personal_address", "personal_phone", "personal_email", "emergency_contact",
+      "rib", "manager", "hire_date", "contract_type", "status", "location",
+      "salary", "payment_frequency", "benefits",
+      "performance_reviews", "goals", "feedback",
+      "education", "trainings", "skills", "past_experience",
+      "payroll_documents", "leave_balance", "leave_taken", "leave_requests", "absences",
+      "tax_id", "diversity_info", "system_access_log", "permissions", "gdpr_compliance"
+    ];
+
+    const employee = {};
+
+    champs.forEach(key => {
+      const input = document.getElementById(`edit-${key}`);
+      if (input) employee[key] = input.value;
+    });
+
+    fetch(`http://localhost:3000/employees/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ employee })
+    })
+    .then(res => res.json())
+    .then(data => {
+      // mise à jour à l'écran
+      champs.forEach(key => {
+        const span = document.getElementById(`emp-${key}`);
+        const input = document.getElementById(`edit-${key}`);
+        if (span && input) span.textContent = input.value;
+      });
+
+      // afficher le message
+      const msg = document.getElementById('success-message');
+      msg.style.display = 'block';
+      msg.style.opacity = 1;
+      setTimeout(() => {
+        msg.style.opacity = 0;
+        setTimeout(() => msg.style.display = 'none', 500);
+      }, 2500);
+    });
+    // Update the display text after saving
+    champs.forEach(key => {
+    const span = document.getElementById(`emp-${key}`);
+    const input = document.getElementById(`edit-${key}`);
+    if (span && input) {
+        span.textContent = input.value;
+    }
+    });
+  }
   </script>
 </body>
 </html>
